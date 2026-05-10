@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Card, Progress, Button, message, Row, Col, Empty } from 'antd'
+import { Progress, Button, message, Row, Col, Empty } from 'antd'
 import { CompressOutlined } from '@ant-design/icons'
 import { getCompressStats, triggerCompress } from '../api/client'
 
