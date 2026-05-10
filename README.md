@@ -5,7 +5,7 @@
 ## 环境依赖
 
 - Python 3.11+
-- Node.js 22+
+- Node.js 18+
 - 或 Docker + Docker Compose
 
 ## 安装步骤
@@ -19,6 +19,7 @@ pip install -r requirements.txt
 # 前端
 cd src/frontend
 npm install
+npm run build
 ```
 
 ### 方式二：Docker 部署
@@ -26,6 +27,18 @@ npm install
 ```bash
 docker-compose up -d
 ```
+
+### 方式三：ModelScope 创空间部署
+
+1. Fork 本仓库到你的 GitHub 账号
+2. 在 ModelScope 创建新的创空间
+3. 选择 Docker SDK
+4. 连接你的 GitHub 仓库
+5. 设置环境变量：
+   - `LLM_PROVIDER`: openai / anthropic / ollama
+   - `LLM_API_KEY`: 你的 API Key
+   - `LLM_MODEL`: 模型名称
+   - `LLM_BASE_URL`: API 端点
 
 ## 配置说明
 
@@ -42,9 +55,11 @@ cp .env.example .env
 
 ## 启动命令
 
+### 本地开发
+
 ```bash
 # 后端
-uvicorn src.backend.main:app --reload
+uvicorn src.backend.main:app --reload --port 8000
 
 # 前端
 cd src/frontend
@@ -52,6 +67,16 @@ npm run dev
 ```
 
 访问 http://localhost:5173
+
+### Docker 部署
+
+```bash
+# 构建并启动
+docker-compose up -d
+
+# 访问
+http://localhost:7860
+```
 
 ## 使用说明
 
@@ -70,3 +95,17 @@ npm run dev
 - 双重语义对齐 (Embedding + LLM)
 - RAG精准问答 (带引用)
 - 教师对话 (支持修改决策)
+- 内容压缩 (≤30%)
+
+## 技术栈
+
+- **后端**: FastAPI + Python 3.11
+- **前端**: React + TypeScript + Ant Design
+- **向量数据库**: ChromaDB
+- **图数据库**: NetworkX
+- **LLM**: OpenAI / Anthropic / Ollama
+- **可视化**: ECharts
+
+## License
+
+MIT License - 详见 [LICENSE](LICENSE) 文件
