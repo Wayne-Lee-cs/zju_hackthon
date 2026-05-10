@@ -1,0 +1,9 @@
+*.pdf
+data/textbooks/
+data/chroma/
+.env
+__pycache__/
+node_modules/
+dist/
+.vite/
+*.pyc
