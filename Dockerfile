@@ -1,9 +1,9 @@
 # Stage 1: Build frontend
-FROM node:18-slim AS frontend
+FROM node:18-slim AS frontend-builder
 
-WORKDIR /build
+WORKDIR /build/frontend
 
-# Copy only package files first
+# Copy package files
 COPY src/frontend/package*.json ./
 
 # Install dependencies
@@ -12,6 +12,9 @@ RUN npm ci
 # Copy source and build
 COPY src/frontend/ ./
 RUN npm run build
+
+# Copy built files
+RUN cp -r dist /frontend-dist
 
 # Stage 2: Python backend
 FROM python:3.11-slim
@@ -22,9 +25,11 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application code
+# Copy backend code
 COPY src/backend/ ./src/backend/
-COPY src/frontend/dist ./src/frontend/dist
+
+# Copy built frontend from stage 1
+COPY --from=frontend-builder /build/frontend/dist ./src/frontend/dist
 
 ENV PYTHONPATH=/app
 
