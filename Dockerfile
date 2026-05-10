@@ -1,38 +1,36 @@
-# Stage 1: Build frontend
-FROM node:18-slim AS frontend-builder
-
-WORKDIR /build/frontend
-
-# Copy package files
+# Build frontend
+FROM node:20-slim AS frontend-builder
+WORKDIR /app/frontend
 COPY src/frontend/package*.json ./
-
-# Install dependencies
 RUN npm ci
-
-# Copy source and build
-COPY src/frontend/ ./
+COPY src/frontend/ .
 RUN npm run build
 
-# Copy built files
-RUN cp -r dist /frontend-dist
-
-# Stage 2: Python backend
-FROM python:3.11-slim
-
+# Build backend
+FROM python:3.10-slim
 WORKDIR /app
 
-# Install Python dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Create non-root user
+RUN useradd -m -u 1000 user
+USER user
+ENV HOME=/home/user \
+    PATH=/home/user/.local/bin:$PATH
+
+# Copy requirements and install
+COPY --chown=user requirements.txt /app/requirements.txt
+WORKDIR /app
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
 # Copy backend code
-COPY src/backend/ ./src/backend/
+COPY --chown=user src/backend /app/backend
 
-# Copy built frontend from stage 1
-COPY --from=frontend-builder /build/frontend/dist ./src/frontend/dist
+# Copy frontend build to static
+COPY --from=frontend-builder --chown=user /app/frontend/dist /app/backend/static
 
-ENV PYTHONPATH=/app
+# Create data directory
+RUN mkdir -p /app/backend/data && chmod 755 /app/backend/data
 
 EXPOSE 7860
 
-CMD ["uvicorn", "src.backend.main:app", "--host", "0.0.0.0", "--port", "7860"]
+CMD ["uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "7860"]

@@ -43,6 +43,6 @@ app.include_router(merge_router)
 app.include_router(rag_router)
 app.include_router(teacher_router)
 
-frontend_dist = os.path.join(os.path.dirname(__file__), "..", "frontend", "dist")
+frontend_dist = os.path.join(os.path.dirname(__file__), "static")
 if os.path.exists(frontend_dist):
     app.mount("/", StaticFiles(directory=frontend_dist, html=True))
