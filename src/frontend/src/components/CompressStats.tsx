@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { Card, Progress, Button, message, Statistic, Row, Col } from 'antd'
+import { Card, Progress, Button, message, Statistic, Row, Col, Empty } from 'antd'
+import { CompressOutlined } from '@ant-design/icons'
 import { getCompressStats, triggerCompress } from '../api/client'
 
 export default function CompressStats() {
@@ -35,38 +36,152 @@ export default function CompressStats() {
   const compressionRatio = stats ? Math.max(0, Math.min(100, Math.round((1 - stats.ratio) * 100))) : 0
 
   return (
-    <div style={{ padding: 24 }}>
-      <h2>压缩统计</h2>
-      <Button onClick={handleCompress} loading={loading} style={{ marginBottom: 16 }}>
-        触发压缩
-      </Button>
-      {stats && (
-        <Card>
-          <Row gutter={16}>
+    <div>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        marginBottom: 24,
+      }}>
+        <div>
+          <h2 style={{ marginBottom: 8, borderBottom: 'none', paddingBottom: 0 }}>压缩统计</h2>
+          <div style={{
+            color: 'var(--text-secondary)',
+            fontSize: 15,
+            fontFamily: 'var(--font-serif)',
+          }}>
+            精华版内容的压缩效果
+          </div>
+        </div>
+        <Button
+          type="primary"
+          icon={<CompressOutlined />}
+          onClick={handleCompress}
+          loading={loading}
+        >
+          触发压缩
+        </Button>
+      </div>
+
+      {stats ? (
+        <div style={{
+          background: 'var(--bg-card)',
+          borderRadius: 8,
+          border: '1px solid var(--border-secondary)',
+          padding: 32,
+        }}>
+          <Row gutter={32}>
             <Col span={8}>
-              <Statistic title="原始字数" value={stats.original_chars} />
+              <div style={{
+                padding: '20px 0',
+                borderBottom: '1px solid var(--border-secondary)',
+              }}>
+                <div style={{
+                  fontSize: 12,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.08em',
+                  color: 'var(--text-secondary)',
+                  fontWeight: 500,
+                  marginBottom: 8,
+                }}>
+                  原始字数
+                </div>
+                <div style={{
+                  fontSize: 28,
+                  fontWeight: 600,
+                  color: 'var(--text-primary)',
+                  fontFamily: 'var(--font-sans)',
+                }}>
+                  {stats.original_chars.toLocaleString('zh-CN')}
+                </div>
+              </div>
             </Col>
             <Col span={8}>
-              <Statistic title="压缩后字数" value={stats.compressed_chars} />
+              <div style={{
+                padding: '20px 0',
+                borderBottom: '1px solid var(--border-secondary)',
+              }}>
+                <div style={{
+                  fontSize: 12,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.08em',
+                  color: 'var(--text-secondary)',
+                  fontWeight: 500,
+                  marginBottom: 8,
+                }}>
+                  压缩后字数
+                </div>
+                <div style={{
+                  fontSize: 28,
+                  fontWeight: 600,
+                  color: 'var(--accent-primary)',
+                  fontFamily: 'var(--font-sans)',
+                }}>
+                  {stats.compressed_chars.toLocaleString('zh-CN')}
+                </div>
+              </div>
             </Col>
             <Col span={8}>
-              <Statistic
-                title="压缩比"
-                value={stats.ratio <= 1 ? ((1 - stats.ratio) * 100).toFixed(1) : 'N/A'}
-                suffix="%"
-              />
+              <div style={{
+                padding: '20px 0',
+                borderBottom: '1px solid var(--border-secondary)',
+              }}>
+                <div style={{
+                  fontSize: 12,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.08em',
+                  color: 'var(--text-secondary)',
+                  fontWeight: 500,
+                  marginBottom: 8,
+                }}>
+                  压缩效果
+                </div>
+                <div style={{
+                  fontSize: 28,
+                  fontWeight: 600,
+                  color: compressionRatio > 30 ? 'var(--accent-primary)' : 'var(--text-primary)',
+                  fontFamily: 'var(--font-sans)',
+                }}>
+                  {stats.ratio <= 1 ? `${compressionRatio}%` : 'N/A'}
+                </div>
+              </div>
             </Col>
           </Row>
-          <Progress
-            percent={compressionRatio}
-            status={stats.ratio > 1 ? 'exception' : 'active'}
-            format={() => stats.ratio <= 1
-              ? `已压缩 ${compressionRatio}%`
-              : '内容膨胀'
-            }
-            style={{ marginTop: 16 }}
+
+          <div style={{ marginTop: 32 }}>
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              marginBottom: 8,
+            }}>
+              <span style={{ fontSize: 13, color: 'var(--text-secondary)' }}>
+                压缩进度
+              </span>
+              <span style={{ fontSize: 13, color: 'var(--text-secondary)' }}>
+                目标: ≤30%
+              </span>
+            </div>
+            <Progress
+              percent={compressionRatio}
+              status={stats.ratio > 1 ? 'exception' : 'active'}
+              showInfo={false}
+              strokeColor={stats.ratio <= 0.3 ? '#5A9E6F' : '#DA7756'}
+              trailColor="var(--border-secondary)"
+            />
+          </div>
+        </div>
+      ) : (
+        <div style={{
+          background: 'var(--bg-card)',
+          borderRadius: 8,
+          border: '1px solid var(--border-secondary)',
+          padding: '60px 0',
+        }}>
+          <Empty
+            description="暂无压缩数据，请先触发压缩"
+            image={Empty.PRESENTED_IMAGE_SIMPLE}
           />
-        </Card>
+        </div>
       )}
     </div>
   )

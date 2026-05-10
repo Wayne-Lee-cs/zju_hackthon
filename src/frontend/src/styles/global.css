@@ -1,0 +1,229 @@
+:root {
+  /* Anthropic Color System */
+  --bg-primary: #FAF9F6;
+  --bg-secondary: #F0EEEA;
+  --bg-tertiary: #F5F4F1;
+  --bg-card: #FFFFFF;
+
+  --text-primary: #2D2B2A;
+  --text-secondary: #7D7A77;
+  --text-tertiary: #A8A5A0;
+
+  --border-primary: #E5E3DF;
+  --border-secondary: #EDECEA;
+
+  --accent-primary: #DA7756;
+  --accent-hover: #C4683F;
+
+  /* Typography */
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-serif: "Source Serif 4", "Merriweather", "Times New Roman", Georgia, serif;
+
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+}
+
+/* Serif typography for reading areas */
+.serif-text {
+  font-family: var(--font-serif);
+  line-height: 1.8;
+  letter-spacing: 0.01em;
+}
+
+/* Subtle page texture */
+#root {
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(218, 119, 86, 0.02) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(218, 119, 86, 0.01) 0%, transparent 50%);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--border-primary);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--text-tertiary);
+}
+
+/* Ant Design overrides for Anthropic style */
+.ant-layout-sider {
+  border-right: 1px solid var(--border-primary) !important;
+}
+
+.ant-menu-item {
+  transition: all 0.2s ease !important;
+}
+
+.ant-menu-item:hover {
+  background-color: var(--bg-tertiary) !important;
+}
+
+.ant-card {
+  border: 1px solid var(--border-secondary) !important;
+  transition: box-shadow 0.2s ease !important;
+}
+
+.ant-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+}
+
+.ant-btn-primary {
+  background-color: var(--accent-primary);
+  border-color: var(--accent-primary);
+  box-shadow: none !important;
+}
+
+.ant-btn-primary:hover {
+  background-color: var(--accent-hover) !important;
+  border-color: var(--accent-hover) !important;
+}
+
+.ant-input:focus,
+.ant-input-focused,
+.ant-input-affix-wrapper:focus,
+.ant-input-affix-wrapper-focused {
+  box-shadow: 0 0 0 2px rgba(218, 119, 86, 0.15) !important;
+  border-color: var(--accent-primary) !important;
+}
+
+.ant-table {
+  border-radius: 8px !important;
+  overflow: hidden;
+}
+
+.ant-table-thead > tr > th {
+  font-weight: 500 !important;
+  font-size: 13px !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary) !important;
+}
+
+.ant-tag {
+  border: none !important;
+  font-weight: 500;
+}
+
+.ant-progress-text {
+  font-family: var(--font-sans) !important;
+  font-weight: 500;
+}
+
+/* Reading area styles */
+.reading-content {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--text-primary);
+  max-width: 680px;
+}
+
+.reading-content p {
+  margin-bottom: 1.2em;
+}
+
+/* Subtle animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+/* Menu icon alignment */
+.ant-menu-item .anticon {
+  font-size: 16px !important;
+  opacity: 0.7;
+}
+
+.ant-menu-item-selected .anticon {
+  opacity: 1;
+}
+
+/* Header typography */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+h2 {
+  font-size: 20px;
+  margin-bottom: var(--space-lg);
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--border-secondary);
+}
+
+/* Statistic component styling */
+.ant-statistic-title {
+  font-size: 12px !important;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary) !important;
+  font-weight: 500;
+}
+
+.ant-statistic-content {
+  font-weight: 600 !important;
+  color: var(--text-primary) !important;
+}
+
+/* List styling */
+.ant-list-item {
+  border-bottom: 1px solid var(--border-secondary) !important;
+  padding: var(--space-md) 0 !important;
+}
+
+.ant-list-item-meta-title {
+  font-weight: 500 !important;
+}
+
+.ant-list-item-meta-description {
+  font-family: var(--font-serif);
+  color: var(--text-secondary) !important;
+  line-height: 1.7;
+}
