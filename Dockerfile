@@ -12,6 +12,10 @@ WORKDIR /app
 
 # Create non-root user
 RUN useradd -m -u 1000 user
+
+# Create data directories before switching to user (so we can chmod as root)
+RUN mkdir -p /app/data/chroma /app/backend/data/textbooks /app/backend/data/graphs && chmod 777 /app/data /app/backend/data
+
 USER user
 ENV HOME=/home/user \
     PATH=/home/user/.local/bin:$PATH \
@@ -31,9 +35,6 @@ COPY --chown=user shared/ /app/shared/
 
 # Copy frontend build artifacts
 COPY --from=frontend-builder --chown=user /app/frontend/dist /app/backend/static
-
-# Create data directory
-RUN mkdir -p /app/backend/data && chmod 755 /app/backend/data
 
 EXPOSE 7860
 
