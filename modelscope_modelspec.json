@@ -1,0 +1,40 @@
+{
+  "model_id": "zju-hackthon-knowledge-agent",
+  "model_name": "学科知识整合智能体",
+  "model_revision": "v1.0.0",
+  "description": "基于多Agent架构的学科知识整合系统",
+  "type": "application",
+  "runtime": {
+    "image": "python:3.11-slim",
+    "port": 7860,
+    "command": ["uvicorn", "src.backend.main:app", "--host", "0.0.0.0", "--port", "7860"],
+    "workdir": "/app"
+  },
+  "environment": [
+    {
+      "name": "LLM_PROVIDER",
+      "value": "modelscope",
+      "required": true
+    },
+    {
+      "name": "LLM_API_KEY",
+      "value": "",
+      "required": true,
+      "secret": true
+    },
+    {
+      "name": "LLM_MODEL",
+      "value": "Qwen/Qwen2.5-7B-Instruct",
+      "required": false
+    },
+    {
+      "name": "LLM_BASE_URL",
+      "value": "https://api.modelscope.cn/v1",
+      "required": false
+    }
+  ],
+  "resources": {
+    "instance_type": "cpu-2u4g",
+    "replicas": 1
+  }
+}
