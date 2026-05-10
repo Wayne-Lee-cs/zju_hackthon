@@ -7,7 +7,7 @@
   "runtime": {
     "image": "python:3.11-slim",
     "port": 7860,
-    "command": ["uvicorn", "src.backend.main:app", "--host", "0.0.0.0", "--port", "7860"],
+    "command": ["uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "7860"],
     "workdir": "/app"
   },
   "environment": [
