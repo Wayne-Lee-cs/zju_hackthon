@@ -49,6 +49,9 @@ async def process_single_file(file: UploadFile) -> dict:
     # Step 2: KGAgent 提取知识图谱
     graph = await kg_agent.execute(textbook)
 
+    # Step 2.1: 持久化图谱到磁盘
+    kg_agent.builder.save(graph, textbook.textbook_id)
+
     # Step 3: RAG 存储 chunks
     for chapter in textbook.chapters:
         chunks = chunk_text(chapter.content, {
