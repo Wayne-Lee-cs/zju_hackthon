@@ -14,18 +14,21 @@ WORKDIR /app
 RUN useradd -m -u 1000 user
 USER user
 ENV HOME=/home/user \
-    PATH=/home/user/.local/bin:$PATH
+    PATH=/home/user/.local/bin:$PATH \
+    PYTHONPATH=/app
 
-# Copy requirements and install
+# Copy requirements first to leverage Docker cache
 COPY --chown=user requirements.txt /app/requirements.txt
+
+# Install backend dependencies
 WORKDIR /app
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-# Copy backend code
-COPY --chown=user src/backend /app/backend
+# Copy backend files
+COPY --chown=user src/backend/ /app/backend/
 
-# Copy frontend build to static
+# Copy frontend build artifacts
 COPY --from=frontend-builder --chown=user /app/frontend/dist /app/backend/static
 
 # Create data directory
