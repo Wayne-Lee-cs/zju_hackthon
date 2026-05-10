@@ -7,7 +7,7 @@ from ..config import settings
 class OpenAIProvider(BaseLLM):
     def __init__(self):
         self.client = AsyncOpenAI(
-            api_key=settings.LLM_API_KEY,
+            api_key=settings.api_key,
             base_url=settings.LLM_BASE_URL,
         )
         self.model = settings.LLM_MODEL
