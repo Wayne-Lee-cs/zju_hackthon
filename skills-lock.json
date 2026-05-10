@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "ModelScope-Studio": {
+      "source": "modelscope.cn",
+      "sourceType": "well-known",
+      "computedHash": "b833e7de493850aed7063c12593ff9064537adc85dbff7520e4c61cfbfad4324"
+    }
+  }
+}

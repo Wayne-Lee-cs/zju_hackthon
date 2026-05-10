@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Upload, Button, message } from 'antd'
 import type { UploadFile } from 'antd'
-import { UploadOutlined, FileTextOutlined } from '@ant-design/icons'
+import { FileTextOutlined } from '@ant-design/icons'
 import { uploadFiles } from '../api/client'
 
 export default function FileUpload() {

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Table, Button, message, Tag, Empty } from 'antd'
-import { MergeCellsOutlined, CheckCircleOutlined } from '@ant-design/icons'
+import { MergeCellsOutlined } from '@ant-design/icons'
 import { getDecisions, triggerMerge } from '../api/client'
 
 export default function MergePanel() {
