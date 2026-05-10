@@ -18,7 +18,7 @@ compressor = CompressorAgent()
 store = ChromaStore()
 
 ALLOWED_EXTENSIONS = {'.pdf', '.docx', '.md', '.txt'}
-MAX_FILE_SIZE = 50 * 1024 * 1024  # 50MB
+MAX_FILE_SIZE = 200 * 1024 * 1024  # 200MB
 
 
 async def process_single_file(file: UploadFile) -> dict:
