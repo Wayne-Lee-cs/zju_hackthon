@@ -14,7 +14,8 @@ WORKDIR /app
 RUN useradd -m -u 1000 user
 
 # Create data directories before switching to user (so we can chmod as root)
-RUN mkdir -p /app/data/chroma /app/backend/data/textbooks /app/backend/data/graphs && chmod 777 /app/data /app/backend/data
+# Use absolute paths and ensure parent directories are writable
+RUN mkdir -p /app/data/chroma /app/data/graphs /app/backend/data/textbooks && chmod -R 777 /app/data
 
 USER user
 ENV HOME=/home/user \
